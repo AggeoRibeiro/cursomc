@@ -17,6 +17,7 @@ public class Categoria implements Serializable{
 	private Integer id;
 	private String nome;
 	
+	
 	public Categoria () {
 	}
 
@@ -59,6 +60,6 @@ public class Categoria implements Serializable{
 		return Objects.equals(id, other.id);
 	}
 	
-	
+
 
 }
