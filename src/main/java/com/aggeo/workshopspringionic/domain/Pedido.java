@@ -1,5 +1,8 @@
 package com.aggeo.workshopspringionic.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -14,11 +17,15 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
-    private Date date;
 
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private Date instante;
+
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Pagamento pagamento;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
@@ -34,9 +41,9 @@ public class Pedido implements Serializable {
     public Pedido() {
     }
 
-    public Pedido(Integer id, Date date, Cliente cliente, Endereco enderecoDeEntrega) {
+    public Pedido(Integer id, Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
         this.id = id;
-        this.date = date;
+        this.instante = instante;
         this.cliente = cliente;
         this.enderecoDeEntrega = enderecoDeEntrega;
     }
@@ -49,12 +56,12 @@ public class Pedido implements Serializable {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getInstante() {
+        return instante;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setInstante(Date instante) {
+        this.instante = instante;
     }
 
     public Pagamento getPagamento() {
