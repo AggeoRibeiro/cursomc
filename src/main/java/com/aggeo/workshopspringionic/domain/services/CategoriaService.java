@@ -1,15 +1,12 @@
 package com.aggeo.workshopspringionic.domain.services;
 
-import java.util.Optional;
-
+import com.aggeo.workshopspringionic.domain.Categoria;
 import com.aggeo.workshopspringionic.domain.services.exceptions.ObjectNotFoundException;
+import com.aggeo.workshopspringionic.repositories.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.aggeo.workshopspringionic.domain.Categoria;
-import com.aggeo.workshopspringionic.repositories.CategoriaRepository;
-
-import javax.persistence.Id;
+import java.util.Optional;
 
 @Service
 public class CategoriaService {
@@ -22,7 +19,11 @@ public class CategoriaService {
         Optional<Categoria> obj = repo.findById(id);
             return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
         }
+
+    public Categoria insert(Categoria obj) {
+        return repo.save(obj);
     }
+}
 
 
 

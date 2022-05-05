@@ -1,13 +1,12 @@
 package com.aggeo.workshopspringionic.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import javax.persistence.*;
 
 @Entity
 public class Categoria implements Serializable{
@@ -18,7 +17,7 @@ public class Categoria implements Serializable{
 	private Integer id;
 	private String nome;
 
-	@JsonManagedReference
+	@JsonIgnore
 	@ManyToMany(mappedBy = "categorias")
 	private List<Produto> produtos = new ArrayList<>();
 	
