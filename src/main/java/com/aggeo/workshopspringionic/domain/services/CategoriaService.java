@@ -1,10 +1,13 @@
 package com.aggeo.workshopspringionic.domain.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
 import com.aggeo.workshopspringionic.domain.Categoria;
+import com.aggeo.workshopspringionic.domain.services.exceptions.DataIntegrityException;
 import com.aggeo.workshopspringionic.domain.services.exceptions.ObjectNotFoundException;
 import com.aggeo.workshopspringionic.repositories.CategoriaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 
 import java.util.Optional;
 
@@ -27,6 +30,14 @@ public class CategoriaService {
     public Categoria update(Categoria obj) {
         find(obj.getId());
         return repo.save(obj);
+    }
+    public void delete(Integer id) {
+        find(id);
+        try {
+            repo.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos");
+        }
     }
 }
 
