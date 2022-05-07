@@ -3,6 +3,7 @@ package com.aggeo.workshopspringionic.domain.services;
 import com.aggeo.workshopspringionic.domain.Categoria;
 import com.aggeo.workshopspringionic.domain.services.exceptions.DataIntegrityException;
 import com.aggeo.workshopspringionic.domain.services.exceptions.ObjectNotFoundException;
+import com.aggeo.workshopspringionic.dto.CategoriaDTO;
 import com.aggeo.workshopspringionic.repositories.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -50,6 +51,10 @@ public class CategoriaService {
     public Page<Categoria> findPage(Integer page, Integer linesPerPage,String direction, String orderBy ){
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return repo.findAll(pageRequest);
+    }
+
+    public Categoria fromDTO(CategoriaDTO objDto){
+        return new Categoria(objDto.getId(), objDto.getNome());
     }
 }
 
