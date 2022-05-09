@@ -1,9 +1,12 @@
 package com.aggeo.workshopspringionic.domain.services.validation;
 
+import com.aggeo.workshopspringionic.domain.Cliente;
 import com.aggeo.workshopspringionic.domain.enums.TipoCliente;
 import com.aggeo.workshopspringionic.domain.services.validation.utils.BR;
 import com.aggeo.workshopspringionic.dto.ClienteNewDTO;
+import com.aggeo.workshopspringionic.repositories.ClienteRepository;
 import com.aggeo.workshopspringionic.resources.exception.FieldMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -14,6 +17,9 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
     @Override
     public void initialize(ClienteInsert ann) {
     }
+
+    @Autowired
+    private ClienteRepository repo;
 
     @Override
     public boolean isValid(ClienteNewDTO objDto, ConstraintValidatorContext context) {
@@ -27,6 +33,10 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
             list.add(new FieldMessage("cpfOuCnpj", "CNPJ invalido"));
         }
 
+        Cliente aux = repo.findByEmail(objDto.getEmail());
+        if(aux != null){
+            list.add(new FieldMessage("email", "Email já existente"));
+        }
         for (FieldMessage e : list) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(e.getMessage())
